@@ -1,0 +1,29 @@
+
+HOSTADDR = 'hostname ip'
+SSH_PORT = '22(ssh port)'
+USERNAME = 'username'
+PASSWORD = 'password'
+
+COMMAND = HOSTADDR
+strconcat COMMAND ':'
+strconcat COMMAND SSH_PORT
+strconcat COMMAND ' /ssh /2 /auth=password /user='
+strconcat COMMAND USERNAME
+strconcat COMMAND ' /passwd='
+strconcat COMMAND PASSWORD
+connect COMMAND
+
+if result <> 2 then
+    messagebox 'ERROR:connection failed' 'ERROR'
+    end
+endif
+
+timeout = 10
+wait '$' '#'
+if result = 0 then 
+    disconnect 0 
+    end 
+endif
+
+
+end

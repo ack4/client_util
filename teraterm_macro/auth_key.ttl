@@ -1,0 +1,40 @@
+
+HOSTADDR = 'hostname or ip'
+SSH_PORT = '22(ssh_port)'
+USERNAME = 'username'
+
+KEY = 'keys\id_rsa'
+getdir KEY_PATH
+strconcat KEY_PATH '\'
+strconcat KEY_PATH KEY
+
+
+COMMAND = HOSTADDR
+strconcat COMMAND ':'
+strconcat COMMAND SSH_PORT
+strconcat COMMAND ' /ssh /2 /auth=publickey /user='
+strconcat COMMAND USERNAME
+strconcat COMMAND ' /keyfile='
+strconcat COMMAND KEY_PATH
+
+connect COMMAND
+
+if result <> 2 then
+    messagebox 'ERROR:connection failed' 'ERROR'
+    end
+endif
+
+timeout = 10
+wait '$' '#'
+if result = 0 then 
+    disconnect 0 
+    end 
+endif
+
+sendln 'su -'
+wait 'Password:'
+
+sendln 'password'
+wait '$' '#'
+
+end
